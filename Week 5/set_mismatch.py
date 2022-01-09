@@ -7,4 +7,4 @@ class Solution:
         for num , freq in nums.items():
             if(freq != 2):
                 mismatch.append(num)
-        return mismatch
+        return mismatch 
