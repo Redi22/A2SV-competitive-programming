@@ -11,7 +11,7 @@ class Solution:
                     continue
                 else:
                     isomorphic = False
-                    break
+                    break   
             else:
                 isomorphic = False
                 break
