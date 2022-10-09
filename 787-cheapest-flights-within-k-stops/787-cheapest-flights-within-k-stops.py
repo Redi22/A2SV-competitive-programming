@@ -1,29 +1,15 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        graph = defaultdict(list)
-        visited = [2 ** 31] * n
+        prices = [float("inf")] * n
+        prices[src] = 0
         
-        for frm, to, price in flights:
-            graph[frm].append((price, to))
-            
-        queue = [(0, 0, src)]
-        while queue:
-            price, step, curr = heapq.heappop(queue)
-            
-            if visited[curr] <= step:  
-                continue
+        for i in range(k + 1):
+            temp = prices[:]
+            for frm, to, price in flights: 
                 
-            if curr == dst:
-                return price
-            
-            if step > k:
-                continue
-            
-            visited[curr] = step
-            
-            for p, node in graph[curr]:
-                heapq.heappush(queue, (p + price, step + 1, node))
+                if temp[frm] != float("inf"):
+                    temp[to] = min(temp[to], price + prices[frm])
                     
-        return -1
-    
-    
+            prices = temp
+            
+        return prices[dst] if prices[dst] != float("inf") else -1
