@@ -12,7 +12,7 @@ class Solution:
         pu = self.find(node1, parent)
         pv = self.find(node2, parent)
 
-        if pu != -1 and pu != pv:
+        if pu != pv:
             if parent[pu] < parent[pv]:
                 parent[pu] += parent[pv]
                 parent[pv] = pu
