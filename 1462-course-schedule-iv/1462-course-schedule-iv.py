@@ -4,33 +4,19 @@ class Solution:
         canReach from course1 to course2 
         
         '''
-        res = []
-        graph = defaultdict(list)
-        ans = [set() for _ in range(numCourses)]
-        inDegree = defaultdict(int)
-        queue = deque()
-
-        for frm, to in prerequisites:
-            graph[frm].append(to)
-            inDegree[to] += 1
+        lookup = [[float("inf")] * numCourses for i in range(numCourses)]
+        answer = []
         
-        for key in range(numCourses):
-            if inDegree[key] == 0: 
-                queue.append(key)
-                
-        while queue:
-            curr = queue.popleft()
-            for nei in graph[curr]:
-                ans[nei] |= ans[curr]
-                ans[nei].add(curr)
-                
-                inDegree[nei] -= 1
-                
-                if inDegree[nei] == 0:
-                    queue.append(nei)
+        for frm, to in prerequisites:
+            lookup[frm][to] = 1
+            
+        for k in range(numCourses):
+            for i in range(numCourses):
+                for j in range(numCourses):
+                    lookup[i][j] = min(lookup[i][j], lookup[i][k] + lookup[k][j])
                     
         
         for frm, to in queries:
-            res.append(frm in ans[to])
-                
-        return res
+            answer.append(lookup[frm][to] != float("inf"))
+            
+        return answer
