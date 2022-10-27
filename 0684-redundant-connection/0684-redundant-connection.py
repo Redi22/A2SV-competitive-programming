@@ -1,10 +1,12 @@
 class Solution:
     def find(self, node, parent):
             current = node
-            while parent[current] > 0:
-                current = parent[current]
-                
-            return current
+            if parent[current] < 0:
+                return current
+            
+            parent[current] = self.find(parent[current], parent)
+            
+            return parent[current]
         
     def union(self, node1, node2, parent):
         pu = self.find(node1, parent)
