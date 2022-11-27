@@ -2,9 +2,6 @@ class Solution:
     def traverse(self, current, graph, path, all_paths, target):
         if current == target:
             all_paths.append(path[:])
-            
-        if len(graph[current]) == 0:
-            return 
         
         for neighbour in graph[current]:
             path.append(neighbour)
