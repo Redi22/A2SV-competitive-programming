@@ -2,19 +2,35 @@ class WordDictionary:
 
     def __init__(self):
         self.root = {}
-    
-    def addWord(self, word):
-        node = self.root
-        for char in word:
-            node = node.setdefault(char, {})
-        node[None] = None
 
-    def search(self, word):
-        def find(word, node):
-            if not word:
-                return None in node
-            char, word = word[0], word[1:]
-            if char != '.':
-                return char in node and find(word, node[char])
-            return any(find(word, kid) for kid in node.values() if kid)
-        return find(word, self.root)
+    def addWord(self, word: str) -> None:
+        current  = self.root
+        for letter in word:
+            if letter not in current:
+                current[letter] = {}
+            current = current[letter]
+            
+        current["#"] = {}  
+        
+    def traverse(self, current, i, word):
+        if i == len(word):
+            return "#" in current
+        if word[i] == ".":
+            for key in current:
+                if self.traverse(current[key], i+1, word):
+                    return True
+            return False
+        return word[i] in current and self.traverse(current[word[i]], i+1, word)
+    
+    def search(self, word: str) -> bool:
+        current = self.root
+        return self.traverse(current, 0, word)
+    
+                
+        
+
+
+# Your WordDictionary object will be instantiated and called as such:
+# obj = WordDictionary()
+# obj.addWord(word)
+# param_2 = obj.search(word)
