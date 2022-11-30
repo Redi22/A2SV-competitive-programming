@@ -1,39 +1,29 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        res = []
-        def split_array(n, m, n2, m2):
-            temp = []
-
-            if n > n2 or m > m2:
-                return temp
-
-            up = []
-            lower = []
-            left = []
-            right = []
-
-            for i in range(m, m2 + 1):
-                up.append(matrix[n][i])
-
-            if n2 != n:
-                for i in range(m, m2 + 1):
-                    lower.append(matrix[n2][i])
-                    
-            for i in range(n, n2 + 1):
-                    right.append(matrix[i][m2])
-
-            if m != m2:
-                for i in range(n, n2 + 1):
-                    left.append(matrix[i][m])
-
-                left = left[1:-1]
-
+        
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        queue = deque([(0,0)])
+        result = []
+        direction = 0
+        visited = set()
+        
+        isValid = lambda r, c: 0 <= r < len(matrix) and 0 <= c < len(matrix[0]) and (r, c) not in visited
+        
+        while queue:
+            current = queue.popleft()
+            
+            result.append(matrix[current[0]][current[1]])
+            
+            visited.add(current)
+            dx, dy = directions[direction]
+            
+            if not isValid(current[0] + dx, current[1] + dy):
+                direction = (direction + 1) % 4
+                dx, dy = directions[direction]
                 
-
-            right = right[1:-1]
-
-            temp += (up + right + lower[::-1] + left[::-1])
-
-            return temp + split_array(n+1, m+1, n2 - 1, m2 - 1)
-
-        return split_array(0, 0, len(matrix) - 1, len(matrix[0]) - 1)
+            if isValid(current[0] + dx, current[1] + dy):  
+                queue.append((dx + current[0], dy + current[1]))
+                
+                
+        return result
