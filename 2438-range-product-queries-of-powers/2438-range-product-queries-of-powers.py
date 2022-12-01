@@ -9,13 +9,15 @@ class Solution:
             n = n >> 1
             i += 1
             
-        
+        for i in range(1, len(powers)):
+            powers[i] *= powers[i - 1] 
+            
+            
         for start, end in queries:
-            product = 1
-            for i in range(start, end + 1):
-                product *= powers[i]
-                
-            result.append(product % (10 ** 9 + 7))
+            if start == 0:
+                result.append((powers[end])  % (10 ** 9 + 7))
+            else:
+                result.append((powers[end] // powers[start - 1]) % (10 ** 9 + 7))
             
         return result
                 
