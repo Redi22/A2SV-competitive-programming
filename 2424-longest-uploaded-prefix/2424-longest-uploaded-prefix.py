@@ -6,6 +6,8 @@ class LUPrefix:
 
     def upload(self, video: int) -> None:
         self.videos.add(video)
+        if self.longest_prefix + 1 in self.videos:
+            self.longest_prefix += 1
 
     def longest(self) -> int:
         while self.longest_prefix + 1 in self.videos:
