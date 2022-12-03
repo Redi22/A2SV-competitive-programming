@@ -7,7 +7,7 @@ class Solution:
         
         heap = []
         count = Counter(s)
-        resultString = []
+        result_string = []
         
         #for each character insert to the heap
         for char, frequency in count.items():
@@ -16,6 +16,6 @@ class Solution:
             
         while heap:
             current = heapq.heappop(heap)
-            resultString.append(current[1] * -current[0])
+            result_string.append(current[1] * -current[0])
             
-        return "".join(resultString)
+        return "".join(result_string)
